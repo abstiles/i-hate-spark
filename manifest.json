@@ -1,0 +1,14 @@
+{
+  "name": "I Hate Spark",
+  "version": "0.1",
+  "description": "Fixes problems with Spark's web UI",
+  "content_scripts": [{
+    "css": [ "fixer.css", "prism.css" ],
+    "js": [ "prism.js", "fixer.js" ],
+    "matches": [ "https://web.ciscospark.com/*" ],
+    "run_at": "document_end"
+  }],
+  "icons" : {
+  },
+  "manifest_version": 2
+}

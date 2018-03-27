@@ -1,0 +1,13 @@
+.activity-text {
+  max-width: none !important;
+}
+
+pre code {
+  text-shadow: none !important;
+}
+
+/* html pre[class*=language-], html pre[class*=language] code {
+   background: #1E1E1E;
+   color: #DCDCDC;
+ }
+*/
