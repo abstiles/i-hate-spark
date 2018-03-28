@@ -1,24 +1,36 @@
-//setInterval(Prism.highlightAll, 2000);
-
 var codeBlockObserver = new MutationObserver(function(mutations, obs) {
-  for(var i = 0; i < mutations.length; ++i) {
-    if (mutations[i].target.tagName == "CODE") {
-      if (!mutations[i].target.querySelector('.token')) {
-        Prism.highlightAllUnder(mutations[i].target.parentNode);
+  window.console.log("Activities have been mutated.");
+  for (var i = 0; i < mutations.length; ++i) {
+    var mutation = mutations[i];
+    if (mutation.target.tagName == "CODE") {
+      if (!mutation.target.querySelector('.token')
+          && !mutation.target.classList.contains("language-none")) {
+        // Need to re-highlight this code.
+        Prism.highlightAllUnder(mutation.target.parentNode);
       }
-    }
-    for(var j = 0; j < mutations[i].addedNodes.length; ++j) {
-      var newTag = mutations[i].addedNodes[j];
-      if (newTag.querySelector && newTag.querySelector('pre')) {
-        Prism.highlightAllUnder(newTag);
+    } else if (mutation.target.id == "activity-items") {
+      window.console.log("Added new activity item.");
+      for(var j = 0; j < mutation.addedNodes.length; ++j) {
+        var newTag = mutation.addedNodes[j];
+        window.console.log("Added:", newTag);
+        if (newTag.querySelector && newTag.querySelector('pre')) {
+          window.console.log("Highlighting:", newTag);
+          Prism.highlightAllUnder(newTag);
+        }
       }
+    } else {
+      window.console.log("Detected mutation on",
+                         (mutation.target.id || mutation.target.tagName),
+                         "with class",
+                         mutation.target.classList);
     }
   }
 });
 
-function waitForElementToDisplay(selector, time) {
-  var element = document.querySelector(selector);
+function waitForActivityFeed() {
+  var element = document.getElementById('activity-items');
   if (element != null) {
+    window.console.log("Highlighting all activities.");
     Prism.highlightAllUnder(element);
     codeBlockObserver.observe(element, {
       childList: true,
@@ -26,9 +38,9 @@ function waitForElementToDisplay(selector, time) {
     });
   } else {
     setTimeout(function() {
-      waitForElementToDisplay(selector, time);
-    }, time);
+      waitForActivityFeed();
+    }, 1000);
   }
 }
 
-waitForElementToDisplay('#activity-items', 1000);
+waitForActivityFeed();
