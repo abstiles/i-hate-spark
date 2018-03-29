@@ -63,3 +63,7 @@ function waitForActivityFeed() {
 }
 
 waitForActivityFeed();
+
+if (document.querySelector('head link[href*=squared]')) {
+  document.querySelector('head link[href*=squared]').remove();
+}

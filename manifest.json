@@ -3,10 +3,10 @@
   "version": "0.1",
   "description": "Fixes problems with Spark's web UI",
   "content_scripts": [{
-    "css": [ "fixer.css", "prism.css" ],
+    "css": [ "inverted.css", "fixer.css", "okaidia.css" ],
     "js": [ "prism.js", "fixer.js" ],
     "matches": [ "https://web.ciscospark.com/*" ],
-    "run_at": "document_end"
+    "run_at": "document_idle"
   }],
   "icons" : {
   },

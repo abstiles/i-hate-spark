@@ -6,8 +6,15 @@ pre code {
   text-shadow: none !important;
 }
 
-/* html pre[class*=language-], html pre[class*=language] code {
-   background: #1E1E1E;
-   color: #DCDCDC;
- }
-*/
+html #navigation {
+  filter: invert(100%) hue-rotate(180deg) !important;
+  border-right: #d7d7d8 !important;
+}
+
+html .iconButton {
+  background-color: #a0a0a0 !important;
+}
+
+.composer-wrapper {
+  background-color: #0a0a0b !important;
+}
