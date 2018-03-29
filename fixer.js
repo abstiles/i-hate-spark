@@ -1,45 +1,64 @@
-var codeBlockObserver = new MutationObserver(function(mutations, obs) {
-  window.console.log("Activities have been mutated.");
-  for (var i = 0; i < mutations.length; ++i) {
-    var mutation = mutations[i];
-    if (mutation.target.tagName == "CODE") {
-      if (!mutation.target.querySelector('.token')
-          && !mutation.target.classList.contains("language-none")) {
-        // Need to re-highlight this code.
-        Prism.highlightAllUnder(mutation.target.parentNode);
-      }
-    } else if (mutation.target.id == "activity-items") {
-      window.console.log("Added new activity item.");
-      for(var j = 0; j < mutation.addedNodes.length; ++j) {
-        var newTag = mutation.addedNodes[j];
-        window.console.log("Added:", newTag);
-        if (newTag.querySelector && newTag.querySelector('pre')) {
-          window.console.log("Highlighting:", newTag);
-          Prism.highlightAllUnder(newTag);
-        }
-      }
-    } else {
-      window.console.log("Detected mutation on",
-                         (mutation.target.id || mutation.target.tagName),
-                         "with class",
-                         mutation.target.classList);
-    }
-  }
+var activityObserver = new MutationObserver(function(mutations, obs) {
+  mutations.forEach(mutation => {
+    mutation.addedNodes.forEach(newNode => {
+      console.log("Added new activity item:",
+                  (newNode.id || newNode.tagName),
+                  "with class:",
+                  newNode.classList
+                 );
+      highlightCodeElementChildren(newNode);
+    });
+  });
 });
 
-function waitForActivityFeed() {
+function highlightAll() {
+  console.log("Highlighting all activities.");
   var element = document.getElementById('activity-items');
-  if (element != null) {
-    window.console.log("Highlighting all activities.");
-    Prism.highlightAllUnder(element);
-    codeBlockObserver.observe(element, {
+  observeChildren(element, activityObserver);
+  highlightCodeElementChildren(element);
+}
+
+function highlightCodeElementChildren(parent) {
+  for (codeElement of parent.getElementsByTagName('code')) {
+    highlightItem(codeElement);
+  }
+}
+
+function observeChildren(parent, observer) {
+  observer.observe(parent, { childList: true });
+}
+
+function highlightItem(codeElement) {
+  Prism.highlightAllUnder(codeElement);
+  observeChildren(codeElement, new MutationObserver(function(mutations, obs) {
+    mutations.forEach(mutation => {
+      console.log("Code observer caught mutation of:", mutation.target.tagName);
+      obs.disconnect();
+      setTimeout(() => {
+        if (!mutation.target.classList.contains("language-none")
+            && !mutation.target.querySelector('.token')) {
+          console.log("Highlighting it.");
+          Prism.highlightAllUnder(mutation.target.parentNode);
+        }
+        observeChildren(codeElement, obs);
+      }, 250);
+    });
+  }));
+}
+
+function waitForActivityFeed() {
+  if (document.getElementById('activity-items')) {
+    highlightAll();
+  } else {
+    new MutationObserver(function(mutations, obs) {
+      if (document.getElementById('activity-items')) {
+        highlightAll();
+        obs.disconnect();
+      }
+    }).observe(document.documentElement, {
       childList: true,
       subtree: true
     });
-  } else {
-    setTimeout(function() {
-      waitForActivityFeed();
-    }, 1000);
   }
 }
 
