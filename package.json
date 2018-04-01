@@ -1,0 +1,36 @@
+{
+  "name": "i-hate-spark",
+  "version": "0.1.2",
+  "description": "Fix my problems with Spark",
+  "main": "fixer.js",
+  "scripts": {
+    "build": "mkdir dist; zip dist/i-hate-spark.zip manifest.json *.js *.css",
+    "lint": "jshint fixer.js",
+    "test": "jasmine",
+    "deploy": "./deploy --release"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abstiles/i-hate-spark.git"
+  },
+  "keywords": [
+    "spark",
+    "chrome",
+    "chrome-extension"
+  ],
+  "author": "Andrew Stiles",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/abstiles/i-hate-spark/issues"
+  },
+  "homepage": "https://github.com/abstiles/i-hate-spark",
+  "devDependencies": {
+    "chrome-webstore-upload-cli": "^1.1.1",
+    "jasmine": "^3.1.0",
+    "jasmine-reporters": "^2.3.0",
+    "jshint": "^2.9.5"
+  },
+  "jshintConfig": {
+    "esversion": 6
+  }
+}

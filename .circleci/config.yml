@@ -1,0 +1,39 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:7.10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run lint
+      - run: npm test
+      - store_test_results:
+          path: spec/junitresults
+      - run: npm run build
+      - store_artifacts:
+          path: dist
+      - persist_to_workspace:
+          root: dist
+          paths: [ '*.zip' ]
+  deploy:
+    docker:
+      - image: circleci/node:7.10
+    steps:
+      - checkout
+      - run: npm install
+      - attach_workspace:
+          at: dist
+      - run: npm run deploy -- dist/*.zip
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires: [ 'build' ]
+          filters:
+            branches:
+              only:
+                - master

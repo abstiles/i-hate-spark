@@ -1,6 +1,6 @@
 {
   "name": "I Hate Spark",
-  "version": "0.1",
+  "version": "0.1.2",
   "description": "Fixes problems with Spark's web UI",
   "content_scripts": [{
     "css": [ "inverted.css", "fixer.css", "okaidia.css" ],

@@ -19,7 +19,7 @@ function highlightAll() {
 }
 
 function highlightCodeElementChildren(parent) {
-  for (codeElement of parent.getElementsByTagName('code')) {
+  for (var codeElement of parent.getElementsByTagName('code')) {
     highlightItem(codeElement);
   }
 }
@@ -35,8 +35,8 @@ function highlightItem(codeElement) {
       console.log("Code observer caught mutation of:", mutation.target.tagName);
       obs.disconnect();
       setTimeout(() => {
-        if (!mutation.target.classList.contains("language-none")
-            && !mutation.target.querySelector('.token')) {
+        if (!mutation.target.classList.contains("language-none") &&
+            !mutation.target.querySelector('.token')) {
           console.log("Highlighting it.");
           Prism.highlightAllUnder(mutation.target.parentNode);
         }
