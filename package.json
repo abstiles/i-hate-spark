@@ -4,7 +4,7 @@
   "description": "Fix my problems with Spark",
   "main": "fixer.js",
   "scripts": {
-    "build": "mkdir dist; zip dist/i-hate-spark.zip manifest.json *.js *.css",
+    "build": "webpack --mode=development; cd dist; zip i-hate-spark.zip manifest.json *.js",
     "lint": "jshint fixer.js",
     "test": "jasmine",
     "deploy": "./deploy --release"
@@ -25,12 +25,22 @@
   },
   "homepage": "https://github.com/abstiles/i-hate-spark",
   "devDependencies": {
+    "chrome-manifest-plugin": "^1.0.0",
     "chrome-webstore-upload-cli": "^1.1.1",
+    "css-loader": "^0.28.11",
     "jasmine": "^3.1.0",
     "jasmine-reporters": "^2.3.0",
-    "jshint": "^2.9.5"
+    "jshint": "^2.9.5",
+    "style-loader": "^0.20.3",
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13"
   },
   "jshintConfig": {
     "esversion": 6
+  },
+  "dependencies": {
+    "color": "^3.0.0",
+    "postcss": "^6.0.21",
+    "postcss-color-transform": "^0.1.0"
   }
 }
