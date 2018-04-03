@@ -1,6 +1,6 @@
 {
   "name": "i-hate-spark",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Fix my problems with Spark",
   "main": "fixer.js",
   "scripts": {
