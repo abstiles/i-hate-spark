@@ -66,7 +66,9 @@ waitForActivityFeed();
 
 var postcss = require('postcss');
 var colorTransform = require('postcss-color-transform');
-var inverter = colorTransform({transform: color => color.negate().rotate(180)});
+var inverter = colorTransform({
+    transform: color => color.lab().l(100 - color.lab().l())
+});
 var mainCss = document.querySelector('head link[href*=squared]');
 if (mainCss) {
   console.log('Processing the CSS');

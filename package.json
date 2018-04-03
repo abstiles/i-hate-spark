@@ -39,6 +39,8 @@
     "esversion": 6
   },
   "dependencies": {
+    "color": "^3.0.0",
+    "postcss": "^6.0.21",
     "postcss-color-transform": "^0.1.0"
   }
 }
