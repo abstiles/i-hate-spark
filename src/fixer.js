@@ -64,6 +64,20 @@ function waitForActivityFeed() {
 
 waitForActivityFeed();
 
-if (document.querySelector('head link[href*=squared]')) {
-  document.querySelector('head link[href*=squared]').remove();
+var postcss = require('postcss');
+var colorTransform = require('postcss-color-transform');
+var inverter = colorTransform({transform: color => color.negate().rotate(180)});
+var mainCss = document.querySelector('head link[href*=squared]');
+if (mainCss) {
+  console.log('Processing the CSS');
+  var url = mainCss.href;
+  var request = new XMLHttpRequest();
+  request.open('GET', url, true);
+  request.addEventListener('load', function () {
+    console.log('Loaded CSS');
+    var inverted = document.createElement('style');
+    inverted.innerHTML = postcss(inverter).process(this.responseText).css;
+    document.head.appendChild(inverted);
+  });
+  request.send()
 }

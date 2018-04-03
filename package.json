@@ -4,7 +4,7 @@
   "description": "Fix my problems with Spark",
   "main": "fixer.js",
   "scripts": {
-    "build": "webpack; zip dist/i-hate-spark.zip manifest.json *.js",
+    "build": "webpack --mode=development; cd dist; zip i-hate-spark.zip manifest.json *.js",
     "lint": "jshint fixer.js",
     "test": "jasmine",
     "deploy": "./deploy --release"
@@ -37,5 +37,8 @@
   },
   "jshintConfig": {
     "esversion": 6
+  },
+  "dependencies": {
+    "postcss-color-transform": "^0.1.0"
   }
 }
